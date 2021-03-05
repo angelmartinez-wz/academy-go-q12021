@@ -20,7 +20,7 @@ GetPokemonById retrieves Pokemon information that matches with a given id from t
 */
 func GetPokemonById(params map[string]string) (model.Pokemon, error) {
 	var pokemon model.Pokemon
-	objectId, err := utils.GetObjectIdFromParams(params)
+	objectId, err := utils.GetObjectIdFromParams(params["id"])
 
 	if err == nil {
 		pokemon, err = db.GetPokemonById(objectId)
@@ -48,7 +48,7 @@ UpdatePokemon updates Pokemon information in the database
 func UpdatePokemon(params map[string]string, reader io.ReadCloser) (model.Pokemon, error) {
 	var pokemon model.Pokemon
 	pokemon, err := utils.GetPokemonFromReader(reader)
-	objectId, err := utils.GetObjectIdFromParams(params)
+	objectId, err := utils.GetObjectIdFromParams(params["id"])
 
 	if err == nil {
 		pokemon, err = db.UpdatePokemon(objectId, pokemon)
@@ -62,7 +62,7 @@ DeletePokemon deletes Pokemon information in the database
 */
 func DeletePokemon(params map[string]string) (model.Pokemon, error) {
 	var pokemon model.Pokemon
-	objectId, err := utils.GetObjectIdFromParams(params)
+	objectId, err := utils.GetObjectIdFromParams(params["id"])
 
 	if err == nil {
 		pokemon, err = db.DeletePokemon(objectId)

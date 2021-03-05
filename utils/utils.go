@@ -32,9 +32,8 @@ func GetEnvVar(key string) (string, error) {
 /*
 GetObjectIdFromParams transforms an /{id} to a ObjectId
 */
-func GetObjectIdFromParams(params map[string]string) (bson.ObjectId, error) {
+func GetObjectIdFromParams(id string) (bson.ObjectId, error) {
 	var objectId bson.ObjectId
-	id := params["id"]
 
 	if id == "" || !bson.IsObjectIdHex(id) {
 		return objectId,	errors.New("Invalid id provided")
