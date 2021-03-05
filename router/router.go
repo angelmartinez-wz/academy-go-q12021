@@ -44,7 +44,7 @@ var routes = model.Routes{
 		"GetPokemonCsv",
 		http.MethodGet,
 		csvPokemonPath + id,
-		controller.GetPokemonCSV,
+		controller.GetPokemonCSVById,
 	},
 	model.Route{
 		"AddPokemon",
@@ -62,7 +62,7 @@ var routes = model.Routes{
 		"GetPokemonById",
 		http.MethodGet,
 		pokemonPathWithId,
-		controller.GetPokemon,
+		controller.GetPokemonById,
 	},
 	model.Route{
 		"UpdatePokemon",

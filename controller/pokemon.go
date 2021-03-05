@@ -8,9 +8,7 @@ import (
 )
 
 /*
-GetPokemonCSV returns a JSON with the Pokemon information
-If URL not contains /{id} nor query params return a Pokemon array
-If URL contains /{id} return the Pokemon for the given index
+GetPokemonCSV returns a JSON with a Pokemon  list information
 If URL contains a query params look for a Pokemon that matches with that search filter
 */
 func GetPokemonCSV(w http.ResponseWriter, r *http.Request) {
@@ -25,20 +23,28 @@ func GetPokemonCSV(w http.ResponseWriter, r *http.Request) {
 }
 
 /*
-GetPokemon returns a JSON Pokemon array or a Pokemon information
-If URL not contains /{id} returns a Pokemon array
-If URL contains /{id} return the Pokemon for the given index
+GetPokemonCSVById returns a JSON with the Pokemon information
+*/
+func GetPokemonCSVById(w http.ResponseWriter, r *http.Request) {
+	pokemon, err := usecase.GetPokemonCSVById(r)
+	network.Response(w, pokemon, err)
+}
+
+/*
+GetPokemon returns a JSON Pokemon list
 */
 func GetPokemon(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
+	pokemonList, err := usecase.GetPokemon()
+	network.ResponseList(w, pokemonList, err)
+}
 
-	if id := params["id"]; id != "" {
-		pokemon, err := usecase.GetPokemonById(params)
-		network.Response(w, pokemon, err)
-	} else {
-		pokemonList, err := usecase.GetPokemon()
-		network.ResponseList(w, pokemonList, err)
-	}
+/*
+GetPokemonById returns a JSON with the Pokemon information
+*/
+func GetPokemonById(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	pokemon, err := usecase.GetPokemonById(params)
+	network.Response(w, pokemon, err)
 }
 
 /*

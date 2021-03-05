@@ -13,11 +13,35 @@ import (
 
 /*
 GetPokemonCSV returns a Pokemon list read from a CSV file
-If query params exists or /{id}, filter the Pokemon
-Otherwise, returns the list
+If query params exists, filter the Pokemon to return
 */
 func GetPokemonCSV(r *http.Request) (model.PokemonList, error) {
 	pokemonList, err := utils.ReadCSV()
+
+	if err == nil {
+		queryParams := r.URL.Query()
+
+		if len(queryParams) > 0 {
+			pokemon:= utils.GetPokemonByKey(queryParams, pokemonList)
+			var pokemonSubset model.PokemonList
+			pokemonSubset = append(pokemonSubset, pokemon)
+			return pokemonSubset, nil
+		}
+	}
+
+	return pokemonList, err
+}
+
+/*
+GetPokemonCSVById returns a Pokemon read from a CSV file
+*/
+func GetPokemonCSVById(r *http.Request) (model.Pokemon, error) {
+	var pokemon model.Pokemon
+	pokemonList, err := utils.ReadCSV()
+
+	if pokemonList != nil {
+		pokemon = pokemonList[0]
+	}
 
 	if err == nil {
 		var pokemonSubset model.PokemonList
@@ -30,24 +54,14 @@ func GetPokemonCSV(r *http.Request) (model.PokemonList, error) {
 	
 			if pokemonId <= len(pokemonList) - 1 {
 				pokemonSubset = append(pokemonSubset, pokemonList[pokemonId])
-				return pokemonSubset, nil
+				return pokemonSubset[0], nil
 			}
 
 			err = errors.New("Invalid index")
-			return nil, err
 		}
 	}
 
-	queryParams := r.URL.Query()
-
-	if len(queryParams) > 0 {
-		pokemon:= utils.GetPokemonByKey(queryParams, pokemonList)
-		var pokemonSubset model.PokemonList
-		pokemonSubset = append(pokemonSubset, pokemon)
-		return pokemonSubset, nil
-	}
-
-	return pokemonList, err
+	return pokemon, err
 }
 
 /*
