@@ -14,11 +14,8 @@ func setHeaders(w http.ResponseWriter) http.ResponseWriter {
 }
 
 func validateError(w http.ResponseWriter, err error) {
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, err.Error())
-		return
-	}
+	w.WriteHeader(http.StatusBadRequest)
+	fmt.Fprintf(w, err.Error())
 }
 
 /*
@@ -27,10 +24,11 @@ Response returns a JSON Pokemon
 func Response(w http.ResponseWriter, pokemon model.Pokemon, err error) {
 	if err != nil {
 		validateError(w, err)
-	} else {
-		w = setHeaders(w)
-		json.NewEncoder(w).Encode(pokemon)	
+		return
 	}
+
+	w = setHeaders(w)
+	json.NewEncoder(w).Encode(pokemon)	
 }
 
 /*
@@ -39,8 +37,9 @@ Response returns a JSON PokemonList
 func ResponseList(w http.ResponseWriter, pokemonList model.PokemonList, err error) {
 	if err != nil {
 		validateError(w, err)
-	} else {
-		w = setHeaders(w)
-		json.NewEncoder(w).Encode(pokemonList)
+		return
 	}
+
+	w = setHeaders(w)
+	json.NewEncoder(w).Encode(pokemonList)
 }
