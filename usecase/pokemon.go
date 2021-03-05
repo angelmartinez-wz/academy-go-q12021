@@ -18,10 +18,10 @@ Otherwise, returns the list
 */
 func GetPokemonCSV(r *http.Request) (model.PokemonList, error) {
 	pokemonList, err := utils.ReadCSV()
-	var pokemonSubset model.PokemonList
-	params := mux.Vars(r)
 
 	if err == nil {
+		var pokemonSubset model.PokemonList
+		params := mux.Vars(r)
 		id:= params["id"]
 
 		if id != "" {
