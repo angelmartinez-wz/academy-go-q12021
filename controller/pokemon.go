@@ -4,8 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"bootcamp/usecase"
 	"bootcamp/domain/model"
+	"bootcamp/usecase"
+	"bootcamp/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -45,7 +46,8 @@ GetPokemonCSV returns a JSON with a Pokemon  list information
 If URL contains a query params look for a Pokemon that matches with that search filter
 */
 func GetPokemonCSV(w http.ResponseWriter, r *http.Request) {
-	pokemonList, err := usecase.GetPokemonCSV(r)
+	queryParams := r.URL.Query()
+	pokemonList, err := usecase.GetPokemonCSV(queryParams)
 
 	if len(pokemonList) == 1 {
 		response(w, pokemonList[0], err)
@@ -59,7 +61,9 @@ func GetPokemonCSV(w http.ResponseWriter, r *http.Request) {
 GetPokemonCSVById returns a JSON with the Pokemon information
 */
 func GetPokemonCSVById(w http.ResponseWriter, r *http.Request) {
-	pokemon, err := usecase.GetPokemonCSVById(r)
+	params := mux.Vars(r)
+	id:= params["id"]
+	pokemon, err := usecase.GetPokemonCSVById(id)
 	response(w, pokemon, err)
 }
 
@@ -76,7 +80,8 @@ GetPokemonById returns a JSON with the Pokemon information
 */
 func GetPokemonById(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	pokemon, err := usecase.GetPokemonById(params)
+	id := params["id"]
+	pokemon, err := usecase.GetPokemonById(id)
 	response(w, pokemon, err)
 }
 
@@ -84,7 +89,12 @@ func GetPokemonById(w http.ResponseWriter, r *http.Request) {
 AddPokemon returns a JSON Pokemon struct with the new added Pokemon information
 */
 func AddPokemon(w http.ResponseWriter, r *http.Request) {
-	pokemon, err := usecase.AddPokemon(r.Body)
+	pokemon, err := utils.GetPokemonFromReader(r.Body)
+	
+	if err == nil {
+		pokemon, err = usecase.AddPokemon(pokemon)
+	}
+
 	response(w, pokemon, err)
 }
 
@@ -92,7 +102,14 @@ func AddPokemon(w http.ResponseWriter, r *http.Request) {
 UpdatePokemon returns a JSON Pokemon struct with the updated Pokemon information
 */
 func UpdatePokemon(w http.ResponseWriter, r *http.Request) {
-	pokemon, err := usecase.UpdatePokemon(mux.Vars(r), r.Body)
+	params := mux.Vars(r)
+	id := params["id"]
+	pokemon, err := utils.GetPokemonFromReader(r.Body)
+	
+	if err == nil {
+		pokemon, err = usecase.UpdatePokemon(id, pokemon)
+	}
+
 	response(w, pokemon, err)
 }
 
@@ -100,6 +117,8 @@ func UpdatePokemon(w http.ResponseWriter, r *http.Request) {
 DeletePokemon returns a JSON Pokemon struct with the deleted Pokemon information
 */
 func DeletePokemon(w http.ResponseWriter, r *http.Request) {
-	pokemon, err := usecase.DeletePokemon(mux.Vars(r))
+	params := mux.Vars(r)
+	id := params["id"]
+	pokemon, err := usecase.DeletePokemon(id)
 	response(w, pokemon, err)
 }
