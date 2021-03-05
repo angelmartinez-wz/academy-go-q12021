@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"	
 	"bootcamp/domain/model"
+	"bootcamp/service/csv"
 	"bootcamp/service/db"
 	"bootcamp/utils"
 	"github.com/gorilla/mux"
@@ -16,7 +17,7 @@ GetPokemonCSV returns a Pokemon list read from a CSV file
 If query params exists, filter the Pokemon to return
 */
 func GetPokemonCSV(r *http.Request) (model.PokemonList, error) {
-	pokemonList, err := utils.ReadCSV()
+	pokemonList, err := csv.ReadCSV()
 
 	if err == nil {
 		queryParams := r.URL.Query()
@@ -37,7 +38,7 @@ GetPokemonCSVById returns a Pokemon read from a CSV file
 */
 func GetPokemonCSVById(r *http.Request) (model.Pokemon, error) {
 	var pokemon model.Pokemon
-	pokemonList, err := utils.ReadCSV()
+	pokemonList, err := csv.ReadCSV()
 
 	if pokemonList != nil {
 		pokemon = pokemonList[0]
