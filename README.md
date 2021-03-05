@@ -79,8 +79,13 @@ Based on the self-study material and mentorship covered until this deliverable, 
 
 ### Endpoints
 GET /csv/pokemon <- Return a list of read Pokemon from a CSV file
+GET /csv/pokemon?Name=X <- Return a Pokemon filtered by a query param from a CSV file
 GET /csv/pokemon/id <- Return a specific row number of read Pokemon from a CSV file
+GET /pokemon <- Get Pokemon from DB
+GET /pokemon/id <- Get Pokemon with specific id from DB
 POST /pokemon <- Add new Pokemon to the DB
+PUT /pokemon <- Update a Pokemon in the DB
+DELETE /pokemon <- Delete Pokemon from the DB
 
 ## Second Deliverable (due March 18th 23:59PM)
 
