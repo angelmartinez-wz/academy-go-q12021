@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"bootcamp/config"
 	"bootcamp/router"
-	"bootcamp/utils"
 )
 
 func main() {
 	rt := router.NewRouter()
-	port, _ := utils.GetEnvVar("PORT")
+	configuration := config.GetConfiguration()
 
-	fmt.Println("Server listening in port" + port)
+	fmt.Println("Server listening in port" + configuration.Port)
 
-	server := http.ListenAndServe(port, rt)
+	server := http.ListenAndServe(configuration.Port, rt)
 
 	log.Fatal(server)
 }

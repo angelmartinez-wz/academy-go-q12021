@@ -2,16 +2,17 @@ package db
 
 import (
 	"errors"
+	"bootcamp/config"
 	"bootcamp/domain/model"
-	"bootcamp/utils"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"	
 )
 
 func getSession() *mgo.Collection {
-	mongoUri, _ := utils.GetEnvVar("MONGO_URL")
-	databaseName, _ := utils.GetEnvVar("DB_NAME")
-	collectionName, _ := utils.GetEnvVar("COLLECTION")
+	configuration := config.GetConfiguration()
+	mongoUri := configuration.MongoUrl
+	databaseName := configuration.DbName
+	collectionName := configuration.Collection
 
 	session, err := mgo.Dial(mongoUri)
 

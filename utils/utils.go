@@ -15,21 +15,6 @@ import (
 )
 
 /*
-GetEnvVar gets a given envar by key
-*/
-func GetEnvVar(key string) (string, error) {
-  viper.SetConfigFile(".env")
-  err := viper.ReadInConfig()
-  value, ok := viper.Get(key).(string)
-
-  if !ok {
-    err = errors.New("Invalid type assertion")
-  }
-
-  return value, err
-}
-
-/*
 GetObjectIdFromParams transforms an /{id} to a ObjectId
 */
 func GetObjectIdFromParams(id string) (bson.ObjectId, error) {
