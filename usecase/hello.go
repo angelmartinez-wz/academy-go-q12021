@@ -1,4 +1,4 @@
-package hello
+package usecase
 
 /*
 HelloWorld returns a hello message

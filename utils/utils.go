@@ -10,7 +10,6 @@ import (
 	"net/url"
 	"reflect"
 	"bootcamp/domain/model"
-	"github.com/spf13/viper"
 	"gopkg.in/mgo.v2/bson"
 )
 

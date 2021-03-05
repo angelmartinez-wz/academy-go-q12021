@@ -2,9 +2,7 @@ package router
 
 import (
 	"net/http"
-	"bootcamp/controller/csv"
-	"bootcamp/controller/hello"
-	"bootcamp/controller/pokemon"
+	"bootcamp/controller"
 	"bootcamp/domain/model"
 	"github.com/gorilla/mux"
 )
@@ -34,48 +32,48 @@ var routes = model.Routes{
 		"HelloWorld",
 		http.MethodGet,
 		"/",
-		hello.HelloWorld,
+		controller.HelloWorld,
 	},
 	model.Route{
 		"GetPokemonListCsv",
 		http.MethodGet,
 		csvPokemonPath,
-		csv.GetPokemon,
+		controller.GetPokemonCSV,
 	},
 	model.Route{
 		"GetPokemonCsv",
 		http.MethodGet,
 		csvPokemonPath + id,
-		csv.GetPokemon,
+		controller.GetPokemonCSV,
 	},
 	model.Route{
 		"AddPokemon",
 		http.MethodPost,
 		pokemonPath,
-		pokemon.AddPokemon,
+		controller.AddPokemon,
 	},
 	model.Route{
 		"GetPokemon",
 		http.MethodGet,
 		pokemonPath,
-		pokemon.GetPokemon,
+		controller.GetPokemon,
 	},
 	model.Route{
 		"GetPokemonById",
 		http.MethodGet,
 		pokemonPathWithId,
-		pokemon.GetPokemon,
+		controller.GetPokemon,
 	},
 	model.Route{
 		"UpdatePokemon",
 		http.MethodPut,
 		pokemonPathWithId,
-		pokemon.UpdatePokemon,
+		controller.UpdatePokemon,
 	},
 	model.Route{
 		"DeletePokemon",
 		http.MethodDelete,
 		pokemonPathWithId,
-		pokemon.DeletePokemon,
+		controller.DeletePokemon,
 	},
 }
